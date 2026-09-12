@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER GLOW — Gen-Z & K-Beauty Store</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: #090a0f;
+            color: #ffffff;
+            padding-bottom: 110px;
+            overflow-x: hidden;
+        }
+
+        /* Неонды фондық жарықтар */
+        .glow-bg {
+            position: fixed;
+            top: -100px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 0, 128, 0.3) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow-bg-2 {
+            position: fixed;
+            bottom: -50px;
+            right: -50px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Хедер / Шапка */
+        header {
+            padding: 15px;
+            background: rgba(15, 17, 26, 0.6);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box {
+            text-align: left;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff007f, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 10px;
+            color: #a0a5b5;
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+
+        /* Тілдерді ауыстыру батырмалары (Language Switcher) */
+        .lang-switch {
+            display: flex;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #7b8296;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(45deg, #ff007f, #00f2fe);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Stories / Quick Categories */
+        .stories-bar {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 15px 0;
+            margin-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .stories-bar::-webkit-scrollbar { display: none; }
+
+        .story-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: #c4c9d8;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .story-ring {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(45deg, #ff007f, #00f2fe);
+            margin-bottom: 6px;
+        }
+
+        .story-ring img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #090a0f;
+        }
+
+        /* Өнімдер Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        /* Glassmorphism Карточка */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 0, 128, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            font-size: 9px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #f1f3f9;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .card .sub {
+            font-size: 10px;
+            color: #7b8296;
+            margin-bottom: 8px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .price {
+            font-size: 14px;
+            font-weight: 800;
+            color: #00f2fe;
+        }
+
+        .btn-buy {
+            background: linear-gradient(45deg, #ff007f, #00f2fe);
+            border: none;
+            color: #fff;
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-buy:active { transform: scale(0.92); }
+
+        /* Қалқымалы Корзина түймесі */
+        #cartBtn {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 30px);
+            max-width: 470px;
+            background: linear-gradient(45deg, #ff007f, #00f2fe);
+            color: #ffffff;
+            padding: 14px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 0, 127, 0.4);
+            z-index: 99;
+        }
+
+        /* Модальдар */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #11131c;
+            border: 1px solid rgba(255, 0, 128, 0.4);
+            border-radius: 20px;
+            padding: 22px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 0 25px rgba(255, 0, 128, 0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h2 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .cart-items-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding-right: 5px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 12px;
+        }
+
+        .cart-item-title { font-weight: 600; color: #f1f3f9; }
+        .cart-item-price { color: #00f2fe; margin-left: 5px; }
+
+        .remove-btn {
+            color: #ff4d4d;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 2px 6px;
+            margin-left: 10px;
+        }
+
+        .modal-total {
+            font-size: 14px;
+            color: #00f2fe;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .shade-title {
+            font-size: 11px;
+            color: #a0a5b5;
+            margin-bottom: 8px;
+        }
+
+        .shades {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .shade-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .shade-btn.active {
+            border-color: #00f2fe;
+            transform: scale(1.15);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #090a0f;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #ff007f;
+        }
+
+        .btn-submit {
+            background: #25D366;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .btn-close {
+            background: transparent;
+            color: #7b8296;
+            border: none;
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-bg"></div>
+    <div class="glow-bg-2"></div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-box">
+                <div class="logo">CYBER GLOW</div>
+                <div class="tagline">K-BEAUTY & GEN-Z COSMETICS</div>
+            </div>
+            <!-- Екі тілге ауыстыру түймелері -->
+            <div class="lang-switch">
+                <button class="lang-btn active" id="btn-kk" onclick="setLanguage('kk')">ҚАЗ</button>
+                <button class="lang-btn" id="btn-ru" onclick="setLanguage('ru')">РУС</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Stories Categories -->
+        <div class="stories-bar">
+            <div class="story-item">
+                <div class="story-ring"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=150" alt="Serum"></div>
+                <span data-i18n="cat_serums">Сывороткалар</span>
+            </div>
+            <div class="story-item">
+                <div class="story-ring"><img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=150" alt="Lips"></div>
+                <span data-i18n="cat_lips">Тинттер</span>
+            </div>
+            <div class="story-item">
+                <div class="story-ring"><img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=150" alt="Cushion"></div>
+                <span data-i18n="cat_cushions">Кушондар</span>
+            </div>
+            <div class="story-item">
+                <div class="story-ring"><img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=150" alt="Glow"></div>
+                <span data-i18n="cat_oils">Майлар</span>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+            
+            <!-- Item 1 -->
+            <div class="card">
+                <div class="badge" data-i18n="badge_bestseller">ХИТ</div>
+                <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400" alt="Serum">
+                <div>
+                    <h3>Glow Radiance Serum</h3>
+                    <div class="sub">Glass Skin Effect (30ml)</div>
+                </div>
+                <div class="price-row">
+                    <div class="price">8,900 ₸</div>
+                    <button class="btn-buy" onclick="openShadeModal('Glow Radiance Serum', 8900, false)" data-i18n="btn_add">+ Қосу</button>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="card">
+                <div class="badge" data-i18n="badge_trending">ТРЕНД</div>
+                <img src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400" alt="Lip Tint">
+                <div>
+                    <h3>Velvet Water Tint</h3>
+                    <div class="sub">Long-lasting Lip Gloss</div>
+                </div>
+                <div class="price-row">
+                    <div class="price">5,500 ₸</div>
+                    <button class="btn-buy" onclick="openShadeModal('Velvet Water Tint', 5500, true)" data-i18n="btn_add">+ Қосу</button>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400" alt="Cushion">
+                <div>
+                    <h3>Cyber Cushion SPF50</h3>
+                    <div class="sub">Matte Finish Base</div>
+                </div>
+                <div class="price-row">
+                    <div class="price">11,200 ₸</div>
+                    <button class="btn-buy" onclick="openShadeModal('Cyber Cushion SPF50', 11200, true)" data-i18n="btn_add">+ Қосу</button>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="card">
+                <div class="badge" data-i18n="badge_new">ЖАҢА</div>
+                <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400" alt="Glow Oil">
+                <div>
+                    <h3>Neon Dew Oil</h3>
+                    <div class="sub">Hydrating Face Glaze</div>
+                </div>
+                <div class="price-row">
+                    <div class="price">7,800 ₸</div>
+                    <button class="btn-buy" onclick="openShadeModal('Neon Dew Oil', 7800, false)" data-i18n="btn_add">+ Қосу</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Төменгі қалқымалы корзина батырмасы -->
+    <div id="cartBtn" onclick="openCartModal()">
+        <span>🛒 <span data-i18n="cart_title">Себет</span> (<span id="cartCount">0</span>)</span>
+        <span id="cartSum">0 ₸</span>
+    </div>
+
+    <!-- Түс таңдау Модалі -->
+    <div class="modal" id="shadeModal">
+        <div class="modal-content">
+            <h2 id="shadeProdTitle">Тауар аты</h2>
+            <p id="shadeProdPrice" style="color: #00f2fe; margin-bottom: 15px; font-weight: bold;">0 ₸</p>
+
+            <div id="shadeSection" style="display: none;">
+                <div class="shade-title" data-i18n="choose_shade">Түсін / Тонын таңдаңыз (Shade):</div>
+                <div class="shades">
+                    <div class="shade-btn active" style="background: #e0a899;" onclick="selectShade(this, '№21 Light Nude')"></div>
+                    <div class="shade-btn" style="background: #c77a68;" onclick="selectShade(this, '№23 Warm Rose')"></div>
+                    <div class="shade-btn" style="background: #9e3b3b;" onclick="selectShade(this, '№05 Cherry Red')"></div>
+                </div>
+            </div>
+
+            <button class="btn-submit" style="background: linear-gradient(45deg, #ff007f, #00f2fe);" onclick="confirmAddToCart()" data-i18n="btn_confirm_add">Себетке қосу 🛒</button>
+            <button class="btn-close" onclick="closeShadeModal()" data-i18n="btn_back">Артқа</button>
+        </div>
+    </div>
+
+    <!-- Корзина Модалі -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <h2>🛒 <span data-i18n="checkout_title">Тапсырысты рәсімдеу</span></h2>
+            
+            <div class="cart-items-list" id="cartList"></div>
+            <div class="modal-total" id="modalTotalSum">Жалпы сумма: 0 ₸</div>
+
+            <input type="text" id="custName" placeholder="Аты-жөніңіз" data-i18n-ph="ph_name">
+            <input type="text" id="custAddress" placeholder="Жеткізу мекенжайы немесе қала" data-i18n-ph="ph_address">
+
+            <button class="btn-submit" onclick="sendToWhatsApp()" data-i18n="btn_order_wa">WhatsApp арқылы тапсырыс беру 🚀</button>
+            <button class="btn-close" onclick="closeCartModal()" data-i18n="btn_back">Артқа</button>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_PHONE = "77751029235";
+        let currentLang = "kk";
+
+        // Тілдер аудармасының сөздігі
+        const translations = {
+            kk: {
+                cat_serums: "Сывороткалар",
+                cat_lips: "Тинттер",
+                cat_cushions: "Кушондар",
+                cat_oils: "Майлар",
+                badge_bestseller: "ХИТ",
+                badge_trending: "ТРЕНД",
+                badge_new: "ЖАҢА",
+                btn_add: "+ Қосу",
+                cart_title: "Себет",
+                choose_shade: "Түсін / Тонын таңдаңыз (Shade):",
+                btn_confirm_add: "Себетке қосу 🛒",
+                btn_back: "Артқа",
+                checkout_title: "Тапсырысты рәсімдеу",
+                ph_name: "Аты-жөніңіз",
+                ph_address: "Жеткізу мекенжайы немесе қала",
+                btn_order_wa: "WhatsApp арқылы тапсырыс беру 🚀",
+                total_sum_text: "Жалпы сумма: ",
+                msg_hello: "Сәлеметсіз бе! Мен CYBER GLOW сайтынан тапсырыс бергім келеді:\n\n",
+                msg_list: "📦 *ТАПСЫРЫС ТІЗІМІ:*\n",
+                msg_total: "💰 *ЖАЛПЫ СУММА:* ",
+                msg_name: "👤 *Аты-жөні:* ",
+                msg_address: "📍 *Мекенжай:* ",
+                alert_empty: "Себет бос!",
+                alert_fill: "Өтініш, аты-жөніңіз бен жеткізу мекенжайын толық жазыңыз!"
+            },
+            ru: {
+                cat_serums: "Сыворотки",
+                cat_lips: "Тинты",
+                cat_cushions: "Кушоны",
+                cat_oils: "Масла",
+                badge_bestseller: "ХИТ",
+                badge_trending: "ТРЕНД",
+                badge_new: "НОВИНКА",
+                btn_add: "+ Добавить",
+                cart_title: "Корзина",
+                choose_shade: "Выберите оттенок (Shade):",
+                btn_confirm_add: "В корзину 🛒",
+                btn_back: "Назад",
+                checkout_title: "Оформление заказа",
+                ph_name: "Ваше имя и фамилия",
+                ph_address: "Адрес доставки или город",
+                btn_order_wa: "Заказать через WhatsApp 🚀",
+                total_sum_text: "Итоговая сумма: ",
+                msg_hello: "Здравствуйте! Я хочу сделать заказ на сайте CYBER GLOW:\n\n",
+                msg_list: "📦 *СПИСОК ЗАКАЗА:*\n",
+                msg_total: "💰 *ИТОГОВАЯ СУММА:* ",
+                msg_name: "👤 *Имя:* ",
+                msg_address: "📍 *Адрес:* ",
+                alert_empty: "Корзина пуста!",
+                alert_fill: "Пожалуйста, заполните имя и адрес доставки!"
+            }
+        };
+
+        /* Тілді ауыстыру функциясы */
+        function setLanguage(lang) {
+            currentLang = lang;
+
+            document.getElementById('btn-kk').classList.toggle('active', lang === 'kk');
+            document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+
+            // Текстерді ауыстыру
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            // Input placeholder-лерін ауыстыру
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            renderCartList();
+        }
+
+        let cart = [];
+        let tempItem = { title: "", price: 0, shade: "" };
+        let selectedShade = "№21 Light Nude";
+
+        function openShadeModal(title, price, hasShades) {
+            tempItem = { title: title, price: price, shade: hasShades ? "№21 Light Nude" : "" };
+            selectedShade = "№21 Light Nude";
+            
+            document.getElementById('shadeProdTitle').innerText = title;
+            document.getElementById('shadeProdPrice').innerText = price.toLocaleString() + " ₸";
+            
+            const shadeSec = document.getElementById('shadeSection');
+            if(hasShades) {
+                shadeSec.style.display = 'block';
+                document.querySelectorAll('.shade-btn').forEach((btn, index) => {
+                    btn.classList.toggle('active', index === 0);
+                });
+            } else {
+                shadeSec.style.display = 'none';
+            }
+
+            document.getElementById('shadeModal').style.display = 'flex';
+        }
+
+        function closeShadeModal() {
+            document.getElementById('shadeModal').style.display = 'none';
+        }
+
+        function selectShade(element, shadeName) {
+            document.querySelectorAll('.shade-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            selectedShade = shadeName;
+            tempItem.shade = shadeName;
+        }
+
+        function confirmAddToCart() {
+            cart.push({ ...tempItem });
+            updateCartUI();
+            closeShadeModal();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+            renderCartList();
+        }
+
+        function updateCartUI() {
+            const count = cart.length;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+            document.getElementById('cartCount').innerText = count;
+            document.getElementById('cartSum').innerText = total.toLocaleString() + " ₸";
+
+            if (count > 0) {
+                document.getElementById('cartBtn').style.display = 'flex';
+            } else {
+                document.getElementById('cartBtn').style.display = 'none';
+                closeCartModal();
+            }
+        }
+
+        function openCartModal() {
+            renderCartList();
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function renderCartList() {
+            const listContainer = document.getElementById('cartList');
+            listContainer.innerHTML = "";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const shadeText = item.shade ? ` (${item.shade})` : "";
+                listContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <span class="cart-item-title">${item.title}</span>${shadeText} 
+                            <span class="cart-item-price">${item.price.toLocaleString()} ₸</span>
+                        </div>
+                        <span class="remove-btn" onclick="removeFromCart(${index})">✕</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('modalTotalSum').innerText = translations[currentLang].total_sum_text + total.toLocaleString() + " ₸";
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('custName').value;
+            const address = document.getElementById('custAddress').value;
+
+            if (cart.length === 0) {
+                alert(translations[currentLang].alert_empty);
+                return;
+            }
+
+            if (!name || !address) {
+                alert(translations[currentLang].alert_fill);
+                return;
+            }
+
+            let itemsText = "";
+            let total = 0;
+
+            cart.forEach((item, i) => {
+                const shadeText = item.shade ? ` [Тон: ${item.shade}]` : "";
+                itemsText += `${i + 1}. ${item.title}${shadeText} — ${item.price.toLocaleString()} ₸\n`;
+                total += item.price;
+            });
+
+            const t = translations[currentLang];
+            const message = `${t.msg_hello}` +
+                            `${t.msg_list}${itemsText}\n` +
+                            `${t.msg_total}${total.toLocaleString()} ₸\n\n` +
+                            `${t.msg_name}${name}\n` +
+                            `${t.msg_address}${address}`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
